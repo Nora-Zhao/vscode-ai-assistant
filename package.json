@@ -1,0 +1,464 @@
+{
+  "name": "vscode-ai-code-assistant-lite",
+  "displayName": "AI Code Assistant Lite",
+  "description": "智能代码助手 - 支持多模型、代码分析、图表生成、测试生成、项目文档自动摘要",
+  "version": "1.0.0",
+  "publisher": "ai-assistant",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "deepseek",
+    "openai",
+    "claude",
+    "chat",
+    "diagram",
+    "test-generator",
+    "code-analysis"
+  ],
+  "activationEvents": [
+    "onView:aiAssistant.chatView",
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ai-assistant",
+          "title": "AI Code Assistant",
+          "icon": "$(hubot)"
+        }
+      ]
+    },
+    "views": {
+      "ai-assistant": [
+        {
+          "type": "webview",
+          "id": "aiAssistant.chatView",
+          "name": "Chat",
+          "icon": "$(comment-discussion)",
+          "retainContextWhenHidden": true
+        },
+        {
+          "type": "webview",
+          "id": "aiAssistant.mcpPanel",
+          "name": "MCP工具",
+          "icon": "$(extensions)",
+          "contextualTitle": "MCP工具管理",
+          "retainContextWhenHidden": true
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aiAssistant.newChat",
+        "title": "AI: 新建对话",
+        "icon": "$(add)"
+      },
+      {
+        "command": "aiAssistant.clearChat",
+        "title": "AI: 清除上下文",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "aiAssistant.compactContext",
+        "title": "AI: 压缩上下文",
+        "icon": "$(fold)"
+      },
+      {
+        "command": "aiAssistant.resumeSession",
+        "title": "AI: 恢复历史会话",
+        "icon": "$(history)"
+      },
+      {
+        "command": "aiAssistant.continueLastSession",
+        "title": "AI: 继续上次对话",
+        "icon": "$(debug-continue)"
+      },
+      {
+        "command": "aiAssistant.stopTask",
+        "title": "AI: 停止当前任务",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "aiAssistant.openSettings",
+        "title": "AI: 打开设置"
+      },
+      {
+        "command": "aiAssistant.clearAllData",
+        "title": "AI: 清空所有历史数据",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "aiAssistant.initProject",
+        "title": "AI: 初始化项目分析",
+        "icon": "$(folder-opened)"
+      },
+      {
+        "command": "aiAssistant.generateDiagram",
+        "title": "AI: 生成流程图",
+        "icon": "$(type-hierarchy)"
+      },
+      {
+        "command": "aiAssistant.generateArchitectureDiagram",
+        "title": "AI: 生成架构图",
+        "icon": "$(circuit-board)"
+      },
+      {
+        "command": "aiAssistant.editDiagram",
+        "title": "AI: 编辑流程图",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "aiAssistant.exportDiagram",
+        "title": "AI: 导出流程图",
+        "icon": "$(export)"
+      },
+      {
+        "command": "aiAssistant.runCommand",
+        "title": "AI: 运行命令",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "aiAssistant.searchCode",
+        "title": "AI: 搜索代码",
+        "icon": "$(search)"
+      },
+      {
+        "command": "aiAssistant.explainCode",
+        "title": "AI: 解释代码",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "aiAssistant.fixCode",
+        "title": "AI: 修复代码",
+        "icon": "$(wrench)"
+      },
+      {
+        "command": "aiAssistant.optimizeCode",
+        "title": "AI: 优化代码",
+        "icon": "$(zap)"
+      },
+      {
+        "command": "aiAssistant.addComments",
+        "title": "AI: 添加注释",
+        "icon": "$(note)"
+      },
+      {
+        "command": "aiAssistant.generateTests",
+        "title": "AI: 生成测试",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "aiAssistant.reviewCode",
+        "title": "AI: 代码审查",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "aiAssistant.showHelp",
+        "title": "AI: 显示帮助",
+        "icon": "$(question)"
+      },
+      {
+        "command": "aiAssistant.setLanguage",
+        "title": "AI: 设置回复语言",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "aiAssistant.parallelDiagrams",
+        "title": "AI: 批量生成图表",
+        "icon": "$(layers)"
+      },
+      {
+        "command": "aiAssistant.parallelTests",
+        "title": "AI: 批量生成测试",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "aiAssistant.openMcpPanel",
+        "title": "AI: 打开MCP工具管理",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "aiAssistant.mcpExecute",
+        "title": "AI: 执行MCP工具",
+        "icon": "$(play)"
+      },
+      {
+        "command": "aiAssistant.mcpAgent",
+        "title": "AI: MCP Agent模式",
+        "icon": "$(robot)"
+      },
+      {
+        "command": "aiAssistant.skill.install",
+        "title": "AI: 安装 Skill 包"
+      },
+      {
+        "command": "aiAssistant.skill.manage",
+        "title": "AI: 管理 Skill 包"
+      },
+      {
+        "command": "aiAssistant.skill.create",
+        "title": "AI: 创建新 Skill 包"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "aiAssistant.newChat",
+          "when": "view == aiAssistant.chatView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "aiAssistant.clearChat",
+          "when": "view == aiAssistant.chatView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "aiAssistant.resumeSession",
+          "when": "view == aiAssistant.chatView",
+          "group": "navigation@3"
+        },
+        {
+          "command": "aiAssistant.generateDiagram",
+          "when": "view == aiAssistant.chatView",
+          "group": "navigation@4"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "aiAssistant.codeActions",
+          "group": "1_aiAssistant",
+          "when": "editorHasSelection"
+        }
+      ],
+      "aiAssistant.codeActions": [
+        {
+          "command": "aiAssistant.explainCode",
+          "group": "1_analyze"
+        },
+        {
+          "command": "aiAssistant.fixCode",
+          "group": "2_modify"
+        },
+        {
+          "command": "aiAssistant.optimizeCode",
+          "group": "2_modify"
+        },
+        {
+          "command": "aiAssistant.addComments",
+          "group": "3_enhance"
+        },
+        {
+          "command": "aiAssistant.generateTests",
+          "group": "3_enhance"
+        },
+        {
+          "command": "aiAssistant.reviewCode",
+          "group": "4_review"
+        },
+        {
+          "command": "aiAssistant.generateDiagram",
+          "group": "5_diagram"
+        },
+        {
+          "command": "aiAssistant.clearAllData",
+          "group": "6_clear"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "aiAssistant.codeActions",
+        "label": "🤖 AI Assistant"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "aiAssistant.stopTask",
+        "key": "escape",
+        "when": "aiAssistant.isProcessing"
+      },
+      {
+        "command": "aiAssistant.newChat",
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+n"
+      },
+      {
+        "command": "aiAssistant.clearChat",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l"
+      },
+      {
+        "command": "aiAssistant.resumeSession",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r"
+      },
+      {
+        "command": "aiAssistant.compactContext",
+        "key": "ctrl+shift+k",
+        "mac": "cmd+shift+k"
+      },
+      {
+        "command": "aiAssistant.openMcpPanel",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      }
+    ],
+    "configuration": {
+      "title": "AI Code Assistant Lite",
+      "properties": {
+        "aiAssistant.defaultProvider": {
+          "type": "string",
+          "default": "deepseek",
+          "enum": [
+            "deepseek",
+            "openai",
+            "anthropic",
+            "kimi",
+            "openrouter"
+          ],
+          "description": "默认使用的AI服务提供商"
+        },
+        "aiAssistant.defaultModel": {
+          "type": "string",
+          "default": "deepseek-chat",
+          "description": "默认使用的模型"
+        },
+        "aiAssistant.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "模型温度参数"
+        },
+        "aiAssistant.maxTokens": {
+          "type": "number",
+          "default": 4096,
+          "description": "最大输出token数"
+        },
+        "aiAssistant.sessionHistory.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用会话历史记录"
+        },
+        "aiAssistant.sessionHistory.maxSessions": {
+          "type": "number",
+          "default": 50,
+          "description": "最大保存会话数"
+        },
+        "aiAssistant.contextCompression.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用上下文自动压缩"
+        },
+        "aiAssistant.contextCompression.maxMessages": {
+          "type": "number",
+          "default": 20,
+          "description": "触发压缩的最大消息数"
+        },
+        "aiAssistant.contextCompression.keepRecent": {
+          "type": "number",
+          "default": 4,
+          "description": "压缩时保留最近的消息数"
+        },
+        "aiAssistant.diagram.defaultFormat": {
+          "type": "string",
+          "default": "mermaid",
+          "enum": [
+            "mermaid",
+            "plantuml",
+            "d2"
+          ],
+          "description": "默认流程图格式"
+        },
+        "aiAssistant.diagram.autoRender": {
+          "type": "boolean",
+          "default": true,
+          "description": "自动渲染流程图预览"
+        },
+        "aiAssistant.testGenerator.framework": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "jest",
+            "vitest",
+            "mocha",
+            "pytest",
+            "junit",
+            "go"
+          ],
+          "description": "测试框架（auto为自动检测）"
+        },
+        "aiAssistant.testGenerator.outputDir": {
+          "type": "string",
+          "default": "",
+          "description": "测试文件输出目录（空则与源文件同目录）"
+        },
+        "aiAssistant.language": {
+          "type": "string",
+          "default": "zh-CN",
+          "enum": [
+            "zh-CN",
+            "en-US"
+          ],
+          "enumDescriptions": [
+            "简体中文",
+            "English"
+          ],
+          "description": "AI 回复使用的语言"
+        },
+        "aiAssistant.language.autoDetect": {
+          "type": "boolean",
+          "default": true,
+          "description": "根据 VS Code 语言自动检测"
+        },
+        "aiAssistant.parallel.maxConcurrency": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 10,
+          "description": "并行任务最大并发数"
+        },
+        "aiAssistant.parallel.stopOnError": {
+          "type": "boolean",
+          "default": false,
+          "description": "遇到错误时停止所有任务"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext ts,tsx",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.30",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.19.8",
+    "eslint": "^8.55.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.23.0"
+  }
+}

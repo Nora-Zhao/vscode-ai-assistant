@@ -1,0 +1,20 @@
+{
+  "id": "dependency-guardian",
+  "name": "Dependency Guardian",
+  "version": "1.0.0",
+  "description": "依赖安全检查与漏洞扫描，支持npm/pip/go等包管理器",
+  "author": "AI Assistant",
+  "runtime": "node",
+  "main": "scripts/main.js",
+  "skillFile": "SKILL.md",
+  "tags": ["security", "dependency", "audit", "vulnerability"],
+  "permissions": ["fs:read", "shell", "mcp:call"],
+  "mcpTools": ["builtin_shell_exec", "builtin_read_file"],
+  "config": {
+    "autoFix": {
+      "type": "boolean",
+      "default": false,
+      "description": "是否自动修复可修复的漏洞"
+    }
+  }
+}

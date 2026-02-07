@@ -1,0 +1,57 @@
+{
+  "id": "example-skill",
+  "name": "示例Skill",
+  "version": "1.0.0",
+  "description": "一个示例skill包，展示skill包的基本结构和功能",
+  "author": "AI Assistant",
+  "runtime": "node",
+  "main": "scripts/main.js",
+  "skillFile": "SKILL.md",
+  "tags": ["example", "demo"],
+  "permissions": [
+    "fs:read",
+    "mcp:call",
+    "mcp:register"
+  ],
+  "mcpTools": [
+    "file-reader",
+    "*"
+  ],
+  "providedTools": [
+    {
+      "id": "example-tool",
+      "name": "示例工具",
+      "description": "由skill提供的示例MCP工具",
+      "version": "1.0.0",
+      "category": "utility",
+      "parameters": [
+        {
+          "name": "input",
+          "type": "string",
+          "description": "输入文本",
+          "required": true
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "description": "处理结果"
+      },
+      "execution": {
+        "type": "function",
+        "builtinFunction": "example-skill:process"
+      },
+      "metadata": {
+        "status": "active",
+        "createdAt": 0,
+        "updatedAt": 0
+      }
+    }
+  ],
+  "config": {
+    "outputFormat": {
+      "type": "string",
+      "default": "json",
+      "description": "输出格式 (json/text/markdown)"
+    }
+  }
+}

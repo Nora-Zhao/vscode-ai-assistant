@@ -1,0 +1,950 @@
+/* ==================== Git 命令面板样式 ==================== */
+
+.git-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.git-panel {
+  background: var(--vscode-editor-background);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.git-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.git-panel-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.git-panel-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+  padding: 4px 8px;
+}
+
+.git-panel-header .close-btn:hover {
+  opacity: 1;
+}
+
+.git-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* 分类标签 */
+.git-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.category-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--vscode-button-secondaryBackground);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--vscode-foreground);
+  transition: all 0.2s;
+}
+
+.category-tab:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.category-tab.active {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.cat-icon {
+  font-size: 14px;
+}
+
+.cat-name {
+  font-weight: 500;
+}
+
+/* 命令列表 */
+.git-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.git-command-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  background: var(--vscode-input-background);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.git-command-item:hover {
+  background: var(--vscode-list-hoverBackground);
+  border-color: var(--vscode-focusBorder);
+}
+
+.git-command-item.dangerous:hover {
+  border-color: var(--vscode-errorForeground);
+}
+
+.command-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.command-label {
+  font-weight: 600;
+  min-width: 100px;
+  color: var(--vscode-foreground);
+}
+
+.command-code {
+  flex: 1;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 12px;
+  color: var(--vscode-textLink-foreground);
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.danger-badge {
+  color: var(--vscode-errorForeground);
+}
+
+.command-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.command-desc {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.ask-ai-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.ask-ai-btn:hover {
+  opacity: 1;
+  background: var(--vscode-button-secondaryBackground);
+}
+
+/* 输入区域 */
+.git-input-section,
+.git-confirm-section {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--vscode-editor-background);
+  border: 1px solid var(--vscode-focusBorder);
+  border-radius: 6px;
+}
+
+.input-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.input-header span {
+  font-weight: 600;
+}
+
+.input-header code {
+  font-size: 12px;
+  color: var(--vscode-textLink-foreground);
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  color: var(--vscode-input-foreground);
+  font-family: var(--vscode-editor-font-family);
+}
+
+.input-row input:focus {
+  outline: none;
+  border-color: var(--vscode-focusBorder);
+}
+
+.execute-btn {
+  padding: 8px 16px;
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.execute-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 确认对话框 */
+.confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--vscode-errorForeground);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.warning-icon {
+  font-size: 18px;
+}
+
+.confirm-content {
+  margin-bottom: 12px;
+}
+
+.confirm-content p {
+  margin: 0 0 8px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.confirm-content code {
+  display: block;
+  padding: 8px;
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 4px;
+  font-family: var(--vscode-editor-font-family);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.confirm-btn.danger {
+  background: var(--vscode-errorForeground);
+  color: white;
+}
+
+.confirm-btn.cancel {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+/* Footer */
+.git-panel-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--vscode-panel-border);
+}
+
+.git-panel-footer .tip {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+/* ==================== 智能输入提示样式 ==================== */
+
+.smart-input-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--vscode-panel-border);
+  font-size: 12px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hint-type {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid;
+  font-size: 11px;
+}
+
+.hint-icon {
+  font-size: 12px;
+}
+
+.hint-text {
+  font-weight: 500;
+}
+
+.hint-suggestion {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  background: var(--vscode-input-background);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hint-suggestion:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.suggestion-text {
+  color: var(--vscode-descriptionForeground);
+}
+
+.use-command-btn {
+  padding: 2px 8px;
+  background: var(--vscode-button-secondaryBackground);
+  border: none;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.use-command-btn:hover {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.hint-info {
+  color: var(--vscode-descriptionForeground);
+}
+
+/* 快捷命令 */
+.quick-commands {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--vscode-panel-border);
+  flex-wrap: wrap;
+}
+
+.quick-label {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.quick-cmd-btn {
+  padding: 3px 8px;
+  background: var(--vscode-button-secondaryBackground);
+  border: none;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--vscode-button-secondaryForeground);
+  transition: all 0.2s;
+}
+
+.quick-cmd-btn:hover {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+/* 命令帮助弹窗 */
+.command-help-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 100px;
+  z-index: 1001;
+}
+
+.help-content {
+  background: var(--vscode-editor-background);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.help-header h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.help-header button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--vscode-foreground);
+  opacity: 0.7;
+}
+
+.help-body {
+  padding: 12px 14px;
+}
+
+.help-usage {
+  margin: 0 0 8px;
+}
+
+.help-usage code {
+  background: var(--vscode-input-background);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: var(--vscode-editor-font-family);
+}
+
+.help-desc {
+  margin: 0 0 12px;
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+}
+
+.help-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.examples-label {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  margin-bottom: 4px;
+}
+
+.example-item {
+  display: block;
+  padding: 4px 8px;
+  background: var(--vscode-input-background);
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: var(--vscode-editor-font-family);
+}
+
+/* ==================== 自动修复按钮增强 ==================== */
+
+.auto-fix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.auto-fix-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.auto-fix-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auto-fix-btn .loading-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 修复进度指示 */
+.fix-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--vscode-input-background);
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.fix-progress-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fix-progress-header .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.fix-progress-bar {
+  height: 4px;
+  background: var(--vscode-progressBar-background);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fix-progress-bar .fill {
+  height: 100%;
+  background: var(--vscode-button-background);
+  animation: indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); width: 40%; }
+  50% { transform: translateX(100%); width: 40%; }
+  100% { transform: translateX(-100%); width: 40%; }
+}
+
+.fix-progress-text {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+/* 修复成功/失败提示 */
+.fix-result {
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fix-result.success {
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #4CAF50;
+}
+
+.fix-result.error {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #F44336;
+}
+
+.fix-result .icon {
+  font-size: 16px;
+}
+
+.fix-result .message {
+  flex: 1;
+  font-size: 12px;
+}
+
+/* ==================== Header 中的 Git 按钮 ==================== */
+
+.header-git-btn {
+  position: relative;
+}
+
+.header-git-btn .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--vscode-errorForeground);
+  border-radius: 50%;
+}
+
+/* Git 状态指示器 */
+.git-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--vscode-input-background);
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.git-status-indicator .branch {
+  color: var(--vscode-textLink-foreground);
+}
+
+.git-status-indicator .changes {
+  color: var(--vscode-errorForeground);
+}
+
+/* ==================== MCP 工具提示样式 ==================== */
+
+/* MCP 工具徽章 */
+.hint-mcp-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.mcp-tool-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--vscode-badge-background);
+  border-radius: 12px;
+  font-size: 11px;
+}
+
+.mcp-tool-badge .tool-name {
+  font-family: var(--vscode-editor-font-family, monospace);
+  color: var(--vscode-textLink-foreground);
+}
+
+.mcp-tool-badge .tool-desc {
+  color: var(--vscode-descriptionForeground);
+}
+
+/* MCP 提示信息 */
+.hint-mcp {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* MCP 工具提示列表 */
+.mcp-tool-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.mcp-hint-category {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mcp-hint-category .category-label {
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+  white-space: nowrap;
+}
+
+.mcp-hint-btn {
+  padding: 2px 8px;
+  font-size: 10px;
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.mcp-hint-btn:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+  transform: translateY(-1px);
+}
+
+/* 智能输入提示增强 */
+.smart-input-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--vscode-editor-inactiveSelectionBackground);
+  border-radius: 6px 6px 0 0;
+  font-size: 12px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hint-type {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.hint-icon {
+  font-size: 12px;
+}
+
+.hint-text {
+  font-weight: 500;
+}
+
+.hint-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.hint-suggestion:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.suggestion-text {
+  color: var(--vscode-descriptionForeground);
+}
+
+.use-command-btn {
+  padding: 2px 8px;
+  font-size: 10px;
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--vscode-editor-font-family, monospace);
+}
+
+.use-command-btn:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.hint-info {
+  display: flex;
+  align-items: center;
+  color: var(--vscode-descriptionForeground);
+  font-size: 11px;
+}
+
+/* 快捷命令增强 */
+.quick-commands {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--vscode-sideBar-background);
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.quick-label {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.quick-cmd-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 11px;
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quick-cmd-btn:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+  transform: translateY(-1px);
+}
+
+/* ==================== Skill 技能提示样式 ==================== */
+
+/* Skill 工具徽章 */
+.hint-skill-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.skill-tool-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%);
+  border-radius: 12px;
+  font-size: 11px;
+  color: white;
+}
+
+.skill-tool-badge .tool-name {
+  font-family: var(--vscode-editor-font-family, monospace);
+  opacity: 0.9;
+}
+
+.skill-tool-badge .tool-desc {
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+/* Skill 提示信息 */
+.hint-skill {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Skill 工具提示列表 */
+.skill-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.skill-hint-category {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.skill-hint-category .category-label {
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+  white-space: nowrap;
+}
+
+.skill-hint-btn {
+  padding: 2px 8px;
+  font-size: 10px;
+  background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.skill-hint-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+}

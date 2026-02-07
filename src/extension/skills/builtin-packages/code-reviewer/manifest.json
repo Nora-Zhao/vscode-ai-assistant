@@ -1,0 +1,29 @@
+{
+  "id": "code-reviewer",
+  "name": "Code Reviewer",
+  "version": "1.0.0",
+  "description": "深度代码审查，提供安全性、性能、可维护性等多维度分析报告",
+  "author": "AI Assistant",
+  "runtime": "node",
+  "main": "scripts/main.js",
+  "skillFile": "SKILL.md",
+  "tags": ["code", "review", "quality", "security"],
+  "permissions": ["fs:read", "mcp:call"],
+  "mcpTools": ["builtin_read_file", "builtin_search_code", "builtin_list_files"],
+  "config": {
+    "severity": {
+      "type": "string",
+      "default": "medium",
+      "description": "最低报告严重程度 (low/medium/high/critical)",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "maxFiles": {
+      "type": "number",
+      "default": 20,
+      "description": "最大审查文件数"
+    }
+  },
+  "entryPoints": {
+    "execute": "scripts/main.js"
+  }
+}
